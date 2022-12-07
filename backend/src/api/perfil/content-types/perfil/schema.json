@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "perfils",
+  "info": {
+    "singularName": "perfil",
+    "pluralName": "perfils",
+    "displayName": "Perfil",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "fullName": {
+      "type": "string"
+    }
+  }
+}

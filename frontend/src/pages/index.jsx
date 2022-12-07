@@ -24,6 +24,7 @@ import logoStarbucks from '@/images/logos/starbucks.svg'
 import { generateRssFeed } from '@/lib/generateRssFeed'
 import { getAllArticles } from '@/lib/getAllArticles'
 import { formatDate } from '@/lib/formatDate'
+import { get } from '@/lib/api'
 
 function MailIcon(props) {
   return (
@@ -246,12 +247,12 @@ function Photos() {
   )
 }
 
-export default function Home({ articles }) {
+export default function Home({ articles, perfil }) {
   return (
     <>
       <Head>
         <title>
-          Spencer Sharp - Software designer, founder, and amateur astronaut
+          { perfil.data.attributes.fullName }
         </title>
         <meta
           name="description"
@@ -261,13 +262,10 @@ export default function Home({ articles }) {
       <Container className="mt-9">
         <div className="max-w-2xl">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-            Software designer, founder, and amateur astronaut.
+            { perfil.data.attributes.title }
           </h1>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            I’m Spencer, a software designer and entrepreneur based in New York
-            City. I’m the founder and CEO of Planetaria, where we develop
-            technologies that empower regular people to explore space on their
-            own terms.
+            { perfil.data.attributes.description }
           </p>
           <div className="mt-6 flex gap-6">
             <SocialLink
@@ -311,6 +309,11 @@ export default function Home({ articles }) {
   )
 }
 
+async function getPerfil() {
+  console.log(await get('perfil'))
+  return get('perfil')
+}
+
 export async function getStaticProps() {
   if (process.env.NODE_ENV === 'production') {
     await generateRssFeed()
@@ -321,6 +324,7 @@ export async function getStaticProps() {
       articles: (await getAllArticles())
         .slice(0, 4)
         .map(({ component, ...meta }) => meta),
+      perfil: (await getPerfil())
     },
   }
 }
