@@ -248,6 +248,7 @@ function Photos() {
 }
 
 export default function Home({ articles, perfil }) {
+  console.log(perfil)
   return (
     <>
       <Head>
@@ -256,17 +257,36 @@ export default function Home({ articles, perfil }) {
         </title>
         <meta
           name="description"
-          content="I’m Spencer, a software designer and entrepreneur based in New York City. I’m the founder and CEO of Planetaria, where we develop technologies that empower regular people to explore space on their own terms."
+          content={ perfil.data.attributes.description }
         />
       </Head>
-      <Container className="mt-9">
-        <div className="max-w-2xl">
-          <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-            { perfil.data.attributes.title }
-          </h1>
-          <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            { perfil.data.attributes.description }
-          </p>
+      <Container className="mt-24 md:mt-28">
+        <div className="lg:grid grid-cols-3">
+        {!!perfil.data.attributes.photo.data && (
+          <div
+            key={perfil.data.attributes.photo.data.id}
+            className={clsx(
+              'col-span-1 relative aspect-[9/10] w-44 flex-none overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 sm:w-72 sm:rounded-2xl',
+            )}
+          >   
+            <Image
+              src={"http://localhost:1337" + perfil.data.attributes.photo.data.attributes.url}
+              width={perfil.data.attributes.photo.data.attributes.width}
+              height={perfil.data.attributes.photo.data.attributes.height}
+              alt=""
+              sizes="(min-width: 640px) 18rem, 11rem"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
+        )}
+          <div className='col-span-2 ml-2 mt-4 lg:mt-0'>
+            <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+              { perfil.data.attributes.title }
+            </h1>
+            <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+              { perfil.data.attributes.description }
+            </p>
+          
           <div className="mt-6 flex gap-6">
             <SocialLink
               href="https://twitter.com"
@@ -289,9 +309,9 @@ export default function Home({ articles, perfil }) {
               icon={LinkedInIcon}
             />
           </div>
+          </div>
         </div>
       </Container>
-      <Photos />
       <Container className="mt-24 md:mt-28">
         <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
           <div className="flex flex-col gap-16">
@@ -310,8 +330,8 @@ export default function Home({ articles, perfil }) {
 }
 
 async function getPerfil() {
-  console.log(await get('perfil'))
-  return get('perfil')
+  console.log(await get('perfil?populate=*'))
+  return get('perfil?populate=*')
 }
 
 export async function getStaticProps() {
