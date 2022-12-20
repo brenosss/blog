@@ -1,11 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "work_expiriences",
+  "collectionName": "work_experiences",
   "info": {
-    "singularName": "work-expirience",
-    "pluralName": "work-expiriences",
-    "displayName": "WorkExpirience",
-    "description": ""
+    "singularName": "work-experience",
+    "pluralName": "work-experiences",
+    "displayName": "WorkExperience"
   },
   "options": {
     "draftAndPublish": true
@@ -15,7 +14,7 @@
     "company": {
       "type": "string"
     },
-    "title": {
+    "description": {
       "type": "string"
     },
     "startDate": {

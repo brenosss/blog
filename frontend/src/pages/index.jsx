@@ -108,7 +108,7 @@ function SocialLink({ icon: Icon, ...props }) {
   )
 }
 
-function Resume({ workExpiriences }) {
+function Resume({ workExperiences }) {
   return (
     <div className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
       <h2 className="flex text-sm font-semibold text-zinc-900 dark:text-zinc-100">
@@ -116,7 +116,7 @@ function Resume({ workExpiriences }) {
         <span className="ml-3">Work</span>
       </h2>
       <ol className="mt-6 space-y-4">
-        {workExpiriences.data.map((workExpirience, roleIndex) => (
+        {workExperiences.data.map((workExperience, roleIndex) => (
           <li key={roleIndex} className="flex gap-4">
             <div className="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-full shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
               <Image src={logoPlanetaria} alt="" className="h-7 w-7" unoptimized />
@@ -124,23 +124,23 @@ function Resume({ workExpiriences }) {
             <dl className="flex flex-auto flex-wrap gap-x-2">
               <dt className="sr-only">Company</dt>
               <dd className="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                {workExpirience.attributes.company}
+                {workExperience.attributes.company}
               </dd>
               <dt className="sr-only">Role</dt>
               <dd className="text-xs text-zinc-500 dark:text-zinc-400">
-                {workExpirience.attributes.title}
+                {workExperience.attributes.title}
               </dd>
               <dt className="sr-only">Date</dt>
               <dd
                 className="ml-auto text-xs text-zinc-400 dark:text-zinc-500"
-                aria-label={workExpirience.attributes.endDate}
+                aria-label={workExperience.attributes.endDate}
               >
-                <time dateTime={workExpirience.attributes.startDate}>
-                  { workExpirience.attributes.startDate}
+                <time dateTime={workExperience.attributes.startDate}>
+                  { workExperience.attributes.startDate}
                 </time>{' '}
                 <span aria-hidden="true">—</span>{' '}
-                <time dateTime={workExpirience.attributes.endDate}>
-                  {workExpirience.attributes.endDate}
+                <time dateTime={workExperience.attributes.endDate}>
+                  {workExperience.attributes.endDate}
                 </time>
               </dd>
             </dl>
@@ -155,9 +155,9 @@ function Resume({ workExpiriences }) {
   )
 }
 
-export default function Home({ articles, perfil, workExpiriences }) {
+export default function Home({ articles, perfil, workExperiences }) {
   console.log(perfil)
-  console.log(workExpiriences)
+  console.log(workExperiences)
   return (
     <>
       <Head>
@@ -228,9 +228,9 @@ export default function Home({ articles, perfil, workExpiriences }) {
               <Article key={article.slug} article={article} />
             ))}
           </div>
-          {!!workExpiriences && workExpiriences.data.length && (
+          {!!workExperiences && workExperiences.data.length && (
             <div className="space-y-10 lg:pl-16 xl:pl-24">
-              <Resume workExpiriences={workExpiriences}/>
+              <Resume workExperiences={workExperiences}/>
             </div>
           )}
         </div>
@@ -245,10 +245,10 @@ async function getPerfil() {
   return perfil
 }
 
-async function getWorkExpiriences() {
-  const workExpiriences = await get('work-expiriences/')
-  console.log(workExpiriences)
-  return workExpiriences
+async function getWorkExperiences() {
+  const workExperiences = await get('work-Experiences/')
+  console.log(workExperiences)
+  return workExperiences
 }
 
 export async function getStaticProps() {
@@ -262,7 +262,7 @@ export async function getStaticProps() {
         .slice(0, 4)
         .map(({ component, ...meta }) => meta),
       perfil: (await getPerfil()),
-      workExpiriences: (await getWorkExpiriences()),
+      workExperiences: (await getWorkExperiences()),
     },
   }
 }
