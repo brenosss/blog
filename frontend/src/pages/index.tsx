@@ -12,19 +12,9 @@ import {
   GitHubIcon,
   LinkedInIcon,
 } from '@/components/SocialIcons'
-import image1 from '@/images/photos/image-1.jpg'
-import image2 from '@/images/photos/image-2.jpg'
-import image3 from '@/images/photos/image-3.jpg'
-import image4 from '@/images/photos/image-4.jpg'
-import image5 from '@/images/photos/image-5.jpg'
-import logoAirbnb from '@/images/logos/airbnb.svg'
-import logoFacebook from '@/images/logos/facebook.svg'
 import logoPlanetaria from '@/images/logos/planetaria.svg'
-import logoStarbucks from '@/images/logos/starbucks.svg'
 import { generateRssFeed } from '@/lib/generateRssFeed'
-import { getAllArticles } from '@/lib/getAllArticles'
-import { formatDate } from '@/lib/formatDate'
-import { get } from '@/lib/api'
+import { getWorkExperiences, getStrapiProfile, getArticles } from '@/lib/api/resources'
 
 function MailIcon(props) {
   return (
@@ -86,15 +76,16 @@ function ArrowDownIcon(props) {
 }
 
 function Article({ article }) {
+  console.log(article)
   return (
     <Card as="article">
-      <Card.Title href={`/articles/${article.slug}`}>
-        {article.title}
+      <Card.Title href={`/articles/${article.id}`}>
+        {article.attributes.title}
       </Card.Title>
-      <Card.Eyebrow as="time" dateTime={article.date} decorate>
-        {formatDate(article.date)}
+      <Card.Eyebrow as="time" dateTime={article.attributes.publishedAt} decorate>
+        {article.attributes.publishedAt}
       </Card.Eyebrow>
-      <Card.Description>{article.description}</Card.Description>
+      <Card.Description>{article.attributes.body}</Card.Description>
       <Card.Cta>Read article</Card.Cta>
     </Card>
   )
@@ -116,8 +107,8 @@ function Resume({ workExperiences }) {
         <span className="ml-3">Work</span>
       </h2>
       <ol className="mt-6 space-y-4">
-        {workExperiences.data.map((workExperience, roleIndex) => (
-          <li key={roleIndex} className="flex gap-4">
+        {workExperiences.data.map((workExperience) => (
+          <li key={workExperience.id} className="flex gap-4">
             <div className="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-full shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
               <Image src={logoPlanetaria} alt="" className="h-7 w-7" unoptimized />
             </div>
@@ -155,33 +146,33 @@ function Resume({ workExperiences }) {
   )
 }
 
-export default function Home({ articles, perfil, workExperiences }) {
-  console.log(perfil)
+export default function Home({ articles, profile, workExperiences }) {
+  console.log(profile)
   console.log(workExperiences)
   return (
     <>
       <Head>
         <title>
-          { perfil.data.attributes.fullName }
+          { profile.data.attributes.fullName }
         </title>
         <meta
           name="description"
-          content={ perfil.data.attributes.description }
+          content={ profile.data.attributes.description }
         />
       </Head>
       <Container className="mt-24 md:mt-28">
         <div className="lg:grid grid-cols-3">
-        {!!perfil.data.attributes.photo.data && (
+        {!!profile.data.attributes.photo.data && (
           <div
-            key={perfil.data.attributes.photo.data.id}
+            key={profile.data.attributes.photo.data.id}
             className={clsx(
               'col-span-1 relative aspect-[9/10] w-44 flex-none overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 sm:w-72 sm:rounded-2xl',
             )}
-          >   
+          >
             <Image
-              src={"http://localhost:1337" + perfil.data.attributes.photo.data.attributes.url}
-              width={perfil.data.attributes.photo.data.attributes.width}
-              height={perfil.data.attributes.photo.data.attributes.height}
+              src={"http://localhost:1337" + profile.data.attributes.photo.data.attributes.url}
+              width={profile.data.attributes.photo.data.attributes.width}
+              height={profile.data.attributes.photo.data.attributes.height}
               alt=""
               sizes="(min-width: 640px) 18rem, 11rem"
               className="absolute inset-0 h-full w-full object-cover"
@@ -190,12 +181,12 @@ export default function Home({ articles, perfil, workExperiences }) {
         )}
           <div className='col-span-2 ml-2 mt-4 lg:mt-0'>
             <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-              { perfil.data.attributes.title }
+              { profile.data.attributes.title }
             </h1>
             <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-              { perfil.data.attributes.description }
+              { profile.data.attributes.description }
             </p>
-          
+
           <div className="mt-6 flex gap-6">
             <SocialLink
               href="https://twitter.com"
@@ -224,7 +215,7 @@ export default function Home({ articles, perfil, workExperiences }) {
       <Container className="mt-24 md:mt-28">
         <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
           <div className="flex flex-col gap-16">
-            {articles.map((article) => (
+            {articles.data.map((article) => (
               <Article key={article.slug} article={article} />
             ))}
           </div>
@@ -239,18 +230,6 @@ export default function Home({ articles, perfil, workExperiences }) {
   )
 }
 
-async function getPerfil() {
-  const perfil = await get('perfil?populate=*')
-  console.log(perfil)
-  return perfil
-}
-
-async function getWorkExperiences() {
-  const workExperiences = await get('work-Experiences/')
-  console.log(workExperiences)
-  return workExperiences
-}
-
 export async function getStaticProps() {
   if (process.env.NODE_ENV === 'production') {
     await generateRssFeed()
@@ -258,11 +237,9 @@ export async function getStaticProps() {
 
   return {
     props: {
-      articles: (await getAllArticles())
-        .slice(0, 4)
-        .map(({ component, ...meta }) => meta),
-      perfil: (await getPerfil()),
-      workExperiences: (await getWorkExperiences()),
+      articles: await getArticles(),
+      profile: await getStrapiProfile(),
+      workExperiences: await getWorkExperiences(),
     },
   }
 }
