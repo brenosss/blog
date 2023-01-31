@@ -7,7 +7,7 @@ export function getStrapiProfile(): Promise<StrapiResponse<Profile>> {
 }
 
 export function getWorkExperiences(): Promise<StrapiResponse<WorkExperience>>{
-  const PATH = 'work-Experiences/'
+  const PATH = 'work-Experiences/?populate=*'
   return get(PATH)
 }
 

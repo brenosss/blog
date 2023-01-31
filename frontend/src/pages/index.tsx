@@ -76,7 +76,6 @@ function ArrowDownIcon(props) {
 }
 
 function Article({ article }) {
-  console.log(article)
   return (
     <Card as="article">
       <Card.Title href={`/articles/${article.id}`}>
@@ -102,15 +101,19 @@ function SocialLink({ icon: Icon, ...props }) {
 function Resume({ workExperiences }) {
   return (
     <div className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
-      <h2 className="flex text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+      
+      <h2 className="flex text-sm font-semibold text-zinc-900 dark:text-zinc-100 ">
         <BriefcaseIcon className="h-6 w-6 flex-none" />
         <span className="ml-3">Work</span>
       </h2>
       <ol className="mt-6 space-y-4">
         {workExperiences.data.map((workExperience) => (
-          <li key={workExperience.id} className="flex gap-4">
-            <div className="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-full shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
-              <Image src={logoPlanetaria} alt="" className="h-7 w-7" unoptimized />
+          //  dark:hover:bg-zinc-800/50 hover:bg-zinc-50 cursor-pointer p-2 rounded-2xl
+          <>
+          <li key={workExperience.id} className="flex gap-4 group/work relative">
+          <div className="absolute -inset-y-6 -inset-x-4 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover/work:scale-100 group-hover/work:opacity-100 dark:bg-zinc-800/50 sm:-inset-x-6 sm:rounded-2xl" />
+            <div className="relative flex h-14 w-14 flex-none items-center justify-center rounded-full shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
+              <Image src={"http://localhost:1337" + workExperience.attributes.logo.data.attributes.url} width={10} height={10} alt="" className="h-10 w-10 rounded-full" unoptimized />
             </div>
             <dl className="flex flex-auto flex-wrap gap-x-2">
               <dt className="sr-only">Company</dt>
@@ -119,7 +122,7 @@ function Resume({ workExperiences }) {
               </dd>
               <dt className="sr-only">Role</dt>
               <dd className="text-xs text-zinc-500 dark:text-zinc-400">
-                {workExperience.attributes.title}
+                {workExperience.attributes.description}
               </dd>
               <dt className="sr-only">Date</dt>
               <dd
@@ -127,7 +130,7 @@ function Resume({ workExperiences }) {
                 aria-label={workExperience.attributes.endDate}
               >
                 <time dateTime={workExperience.attributes.startDate}>
-                  { workExperience.attributes.startDate}
+                  {workExperience.attributes.startDate}
                 </time>{' '}
                 <span aria-hidden="true">—</span>{' '}
                 <time dateTime={workExperience.attributes.endDate}>
@@ -136,6 +139,7 @@ function Resume({ workExperiences }) {
               </dd>
             </dl>
           </li>
+          </>
         ))}
       </ol>
       <Button href="#" variant="secondary" className="group mt-6 w-full">
@@ -147,8 +151,6 @@ function Resume({ workExperiences }) {
 }
 
 export default function Home({ articles, profile, workExperiences }) {
-  console.log(profile)
-  console.log(workExperiences)
   return (
     <>
       <Head>

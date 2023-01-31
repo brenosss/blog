@@ -4,7 +4,8 @@
   "info": {
     "singularName": "work-experience",
     "pluralName": "work-experiences",
-    "displayName": "WorkExperience"
+    "displayName": "WorkExperience",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -22,6 +23,13 @@
     },
     "endDate": {
       "type": "date"
+    },
+    "logo": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }
