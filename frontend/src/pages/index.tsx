@@ -110,12 +110,12 @@ function Resume({ workExperiences }) {
         {workExperiences.data.map((workExperience) => (
           //  dark:hover:bg-zinc-800/50 hover:bg-zinc-50 cursor-pointer p-2 rounded-2xl
           <>
-          <li key={workExperience.id} className="flex gap-4 group/work relative">
-          <div className="absolute -inset-y-6 -inset-x-4 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover/work:scale-100 group-hover/work:opacity-100 dark:bg-zinc-800/50 sm:-inset-x-6 sm:rounded-2xl" />
+          <li key={workExperience.id} className="flex gap-4 group/work relative cursor-pointer">
+          <div className="absolute -inset-y-1 -inset-x-1 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover/work:scale-100 group-hover/work:opacity-100 dark:bg-zinc-800/50 sm:-inset-x-1 sm:rounded-2xl" />
             <div className="relative flex h-14 w-14 flex-none items-center justify-center rounded-full shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
               <Image src={"http://localhost:1337" + workExperience.attributes.logo.data.attributes.url} width={10} height={10} alt="" className="h-10 w-10 rounded-full" unoptimized />
             </div>
-            <dl className="flex flex-auto flex-wrap gap-x-2">
+            <dl className="flex flex-auto flex-wrap gap-x-2 z-20">
               <dt className="sr-only">Company</dt>
               <dd className="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">
                 {workExperience.attributes.company}
