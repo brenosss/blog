@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_text_text_sections",
+  "info": {
+    "displayName": "TextSection",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

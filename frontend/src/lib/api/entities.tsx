@@ -24,5 +24,8 @@ type Articles = {
 
 type Article = {
 }
+
+type TextSection = {
+}
   
   

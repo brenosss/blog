@@ -7,7 +7,7 @@ export function getStrapiProfile(): Promise<StrapiResponse<Profile>> {
 }
 
 export function getWorkExperiences(): Promise<StrapiResponse<WorkExperience>>{
-  const PATH = 'work-Experiences/?populate=*'
+  const PATH = 'work-experiences/?populate=*'
   return get(PATH)
 }
 
@@ -18,6 +18,11 @@ export function getArticles(): Promise<StrapiResponse<Articles>>{
 
 export function getArticle(id: string): Promise<StrapiResponse<Article>>{
   const PATH = 'articles/'
+  return get(PATH)
+}
+
+export function getTextSection(page: string): Promise<StrapiResponse<TextSection>>{
+  const PATH = `text-sections/?filters[page][$eq]=${page}&populate=*`
   return get(PATH)
 }
 
