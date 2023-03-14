@@ -28,6 +28,15 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "linkedin": {
+      "type": "string"
+    },
+    "instagram": {
+      "type": "string"
+    },
+    "github": {
+      "type": "string"
     }
   }
 }

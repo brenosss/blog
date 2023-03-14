@@ -7,7 +7,6 @@ import { Button } from '@/components/Button'
 import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
 import {
-  TwitterIcon,
   InstagramIcon,
   GitHubIcon,
   LinkedInIcon,
@@ -143,26 +142,27 @@ export default function Home({ articles, profile, workExperiences }) {
             </p>
 
           <div className="mt-6 flex gap-6">
-            <SocialLink
-              href="https://twitter.com"
-              aria-label="Follow on Twitter"
-              icon={TwitterIcon}
-            />
-            <SocialLink
-              href="https://instagram.com"
-              aria-label="Follow on Instagram"
-              icon={InstagramIcon}
-            />
-            <SocialLink
-              href="https://github.com"
-              aria-label="Follow on GitHub"
-              icon={GitHubIcon}
-            />
-            <SocialLink
-              href="https://linkedin.com"
-              aria-label="Follow on LinkedIn"
-              icon={LinkedInIcon}
-            />
+            { profile.data.attributes.github && (
+              <SocialLink
+                href={profile.data.attributes.github}
+                aria-label="Follow on GitHub"
+                icon={GitHubIcon}
+              />
+            )}
+            { profile.data.attributes.linkedin && (
+              <SocialLink
+                href={profile.data.attributes.linkedin}
+                aria-label="Follow on LinkedIn"
+                icon={LinkedInIcon}
+              />
+            ) }
+            { profile.data.attributes.instagram && (
+              <SocialLink
+                href={profile.data.attributes.instagram}
+                aria-label="Follow on Instagram"
+                icon={InstagramIcon}
+              />
+            ) }
           </div>
           </div>
         </div>
